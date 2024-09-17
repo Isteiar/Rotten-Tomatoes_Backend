@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import { hash, compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
-import UserTable from "../models/userTable/user";
+import {UserTable} from "../models/user.model";
+
+// import dotenv from "dotenv";
+// dotenv.config();
 
 const createUser = async (req: Request, res: Response) => {
   const { userName, email, password } = req.body;
@@ -39,7 +42,7 @@ const login = async (req: Request, res: Response) => {
     if (!user) {
       res
         .status(401)
-        .send({ success: false, message: "No user with the email is found" });
+        .json({ success: false, message: "No user with the email is found" });
       return;
     }
 
@@ -52,8 +55,8 @@ const login = async (req: Request, res: Response) => {
     }
 
     //Genrate jwt token
-    const accessToken = sign({ id: user.id }, "SECRET_KEY");
-    res.send({ access_token: accessToken });
+    const accessToken = sign({ id: user.id }, "SECRET");
+    res.json({ access_token: accessToken });
   } catch (error) {
     //handle error
     res

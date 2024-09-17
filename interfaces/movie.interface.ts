@@ -1,10 +1,10 @@
 export interface Movie {
-  movieId: number;
+  movieId?: number;
   title: string;
   thumbnail: string;
   duration: string;
-  releaseYear: Date;
+  releaseYear: string;
   votes: number;
-  types: "movie" | "series";
+  types: "Movie" | "Series";
   episodes?: number;
 }

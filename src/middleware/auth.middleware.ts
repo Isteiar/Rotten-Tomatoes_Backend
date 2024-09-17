@@ -1,8 +1,10 @@
 import { ExtendedRequest } from "../../interfaces/extendedRequest.interface";
-import UserTable from "../models/userTable/user";
+import {UserTable} from "../models/user.model";
 import { Response } from "express";
 import { verify } from "jsonwebtoken";
-// const ACCESS_TOKEN_SECRET: string = process.env.ACCESS_TOKEN_SECRET || "";
+
+// import dotenv from "dotenv";
+// dotenv.config();
 
 const authMiddleware = async (
   req: ExtendedRequest,
@@ -16,7 +18,7 @@ const authMiddleware = async (
 
   try {
     //verify and decode token payload
-    const verifiedToken = verify(token, "SECRET_KEY");
+    const verifiedToken = verify(token, "SECRET");
     //check verified token is js object or not
     if (typeof verifiedToken !== "string") {
       const user = await UserTable.findByPk(verifiedToken.id);
