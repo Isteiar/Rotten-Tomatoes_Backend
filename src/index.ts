@@ -1,5 +1,5 @@
 import express, { Express } from "express";
-import { router } from "./routes/routes";
+import { router } from "./routes/router";
 import {sequelize} from "./models";
 import { UserTable } from "./models/user.model";
 import { MovieTable } from "./models/movie.model";

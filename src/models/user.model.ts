@@ -1,6 +1,9 @@
 import { DataTypes, Model } from "sequelize";
-import {sequelize} from "./index";
+import { sequelize } from "./index";
 import { User } from "../../interfaces/user.interface";
+import { ReviewTable } from "./review.model";
+import { MovieTable } from "./movie.model";
+import { WatchListTable } from "./watchList.model";
 
 export interface UserInstance extends Model<User>, User {
   createdAt?: Date;
@@ -27,7 +30,9 @@ export const UserTable = sequelize.define<UserInstance>("User", {
   },
 });
 
-
-
-
-
+UserTable.hasMany(ReviewTable, { foreignKey: "userId", onDelete: "CASCADE" });
+UserTable.belongsToMany(MovieTable, {
+  through: WatchListTable,
+  foreignKey: "userID",
+  onDelete: "CASCADE",
+});

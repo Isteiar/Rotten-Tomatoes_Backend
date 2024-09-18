@@ -1,6 +1,12 @@
 import { DataTypes, Model } from "sequelize";
 import {sequelize} from "./index";
 import { Movie } from "../../interfaces/movie.interface";
+import { ReviewTable } from "./review.model";
+import { ContentGuideTable } from "./contentguide.model";
+import { UserTable } from "./user.model";
+import { WatchListTable } from "./watchList.model";
+import { CategoryTable } from "./category.model";
+import { MovieCategoryJoinTable } from "./movieCategoryJoin.model";
 
 export interface MovieInstance extends Model<Movie>, Movie {
   createdAt?: Date;
@@ -47,3 +53,23 @@ export const MovieTable = sequelize.define<MovieInstance>(
   { timestamps: true }
 );
 
+// Associations
+
+MovieTable.hasMany(ReviewTable, { foreignKey: "movieId", onDelete: "CASCADE" });
+
+MovieTable.hasOne(ContentGuideTable, {
+  foreignKey: "movieId",
+  onDelete: "CASCADE",
+});
+
+MovieTable.belongsToMany(UserTable, {
+  through: WatchListTable,
+  foreignKey: "movieID",
+  onDelete: "CASCADE",
+});
+
+MovieTable.belongsToMany(CategoryTable, {
+  through: MovieCategoryJoinTable,
+  foreignKey: "movieID",
+  onDelete: "CASCADE",
+});

@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import {sequelize} from "./index";
 import { ContentGuide } from "../../interfaces/contentguide.interface";
+import { MovieTable } from "./movie.model";
 
 export interface ContentGuideInstance
   extends Model<ContentGuide>,
@@ -47,3 +48,9 @@ export const ContentGuideTable = sequelize.define<ContentGuideInstance>(
     },
   } 
 );
+
+
+ContentGuideTable.belongsTo(MovieTable, {
+  foreignKey: "movieId",
+  onDelete: "CASCADE",
+});

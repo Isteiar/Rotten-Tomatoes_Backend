@@ -1,17 +1,16 @@
-import express,{Response} from "express";
+import express, { Response } from "express";
 import authMiddleware from "../middleware/auth.middleware";
-import { ExtendedRequest } from "../../interfaces/extendedRequest.interface";
 import { createUser, login } from "../controllers/createUser.controller";
 
+import movieRouter from "./movie.router";
+import movieAdminRouter from "./movieAdmin.router";
 
 const router = express.Router();
 
 router.post("/signup", createUser);
-
 router.post("/login", login);
 
-router.get("/getMovies", authMiddleware, (req:ExtendedRequest, res:Response) => {
-  res.send();
-});
+router.use("/movies",movieRouter);
+router.use("/my-movie", authMiddleware, movieAdminRouter);
 
 export { router };

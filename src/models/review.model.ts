@@ -1,7 +1,8 @@
 import { DataTypes, Model } from "sequelize";
-import {sequelize }from "./index";
+import { sequelize } from "./index";
 import { Review } from "../../interfaces/review.interface";
-
+import { UserTable } from "./user.model";
+import { MovieTable } from "./movie.model";
 
 export interface ReviewInstance extends Model<Review>, Review {
   createdAt?: Date;
@@ -36,3 +37,10 @@ export const ReviewTable = sequelize.define<ReviewInstance>("Review", {
   },
 });
 
+//association
+
+ReviewTable.belongsTo(UserTable, { foreignKey: "userId", onDelete: "CASCADE" });
+ReviewTable.belongsTo(MovieTable, {
+  foreignKey: "movieId",
+  onDelete: "CASCADE",
+});
